@@ -44,7 +44,7 @@ const MobileMenu = ({ isOpen, toggleMenu }) => (
         animate={{ opacity: 1, height: 'auto' }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.3 }}
-        className="md:hidden fixed top-16 inset-x-0 bg-gradient-to-r from-blue-500 to-purple-600 z-40 backdrop-blur-md bg-opacity-90 shadow-lg"
+        className="md:hidden fixed top-20 inset-x-0 bg-gradient-to-r from-blue-500 to-purple-600 z-40 backdrop-blur-md bg-opacity-90 shadow-lg"
       >
         <div className="flex flex-col space-y-2 p-4">
           {menuItems.map((item, index) => (
@@ -88,7 +88,7 @@ const Navbar = () => {
         </div>
       </nav>
       <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
-      <div className="h-16" /> {/* Spacer for fixed navbar */}
+      <div className="h-12" /> {/* Spacer for fixed navbar */}
     </>
   );
 };
