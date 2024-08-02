@@ -74,13 +74,13 @@ const Footer = () => {
       variants={containerVariants}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" variants={containerVariants}>
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left" variants={containerVariants}>
           <motion.div variants={itemVariants}>
             <h3 className="text-2xl font-bold mb-4">Travel Agency</h3>
             <p className="text-gray-300 mb-4">
               Discover the world with us. Your journey begins here.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex justify-center md:justify-start space-x-4">
               {socialLinks.map((link) => (
                 <motion.a
                   key={link.label}
