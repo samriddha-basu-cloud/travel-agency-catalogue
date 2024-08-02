@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../assets/logo.png'; // Importing the logo
 
 const menuItems = [
   { name: 'Home', href: '#' },
@@ -73,7 +74,7 @@ const Navbar = () => {
               transition={{ duration: 0.5 }}
               className="text-2xl font-bold text-white md:text-xl"
             >
-              Travel Agency
+              <img src={logo} alt="Travel Agency Logo" className="h-12 md:h-14" />
             </motion.div>
             <div className="hidden md:flex space-x-4">
               {menuItems.map((item, index) => (
