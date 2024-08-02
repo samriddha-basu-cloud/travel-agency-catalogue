@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaWhatsapp, FaFacebookF, FaInstagram, FaShareAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const FloatingButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,29 +19,41 @@ const FloatingButton = () => {
     { name: 'instagram', icon: FaInstagram, color: '#E4405F', hoverColor: '#C13584' },
   ];
 
-  const buttonClasses = "w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-1000 ease-in-out hover:shadow-xl";
+  const buttonClasses = "w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl";
 
   const SocialButton = ({ platform, index }) => {
     const Icon = platform.icon;
     return (
-      <a
+      <motion.a
         href="#"
-        className={`absolute ${buttonClasses} ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+        className={`absolute ${buttonClasses}`}
         style={{
           backgroundColor: platform.color,
-          transform: `rotate(${isOpen ? 0 : 0}deg) translate(${isOpen ? Math.cos(index * (2 * Math.PI / 3)) * 56 : 0}px, ${isOpen ? Math.sin(index * (2 * Math.PI / 3)) * -60 : 0}px)`,
-          transition: 'all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
         }}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{
+          opacity: isOpen ? 1 : 0,
+          scale: isOpen ? 1 : 0,
+          x: isOpen ? Math.cos(index * (2 * Math.PI / 3)) * 60 : 0,
+          y: isOpen ? Math.sin(index * (2 * Math.PI / 3)) * -60 : 0,
+          transition: {
+            type: "spring",
+            stiffness: 500,
+            damping: 20,
+            delay: isOpen ? index * 0.05 : 0,
+          },
+        }}
+        whileHover={{ scale: 1.1 }}
       >
         <div 
-          className={`flex items-center justify-center w-full h-full rounded-full transition-all duration-1000 ease-in-out ${isLoading ? 'animate-spin' : ''}`}
+          className={`flex items-center justify-center w-full h-full rounded-full transition-all duration-300 ease-in-out transform ${isLoading ? 'animate-spin' : ''}`}
           style={{
-            backgroundColor: platform.hoverColor,
+            background: `linear-gradient(135deg, ${platform.color}, ${platform.hoverColor})`,
           }}
         >
-          <Icon size={22} />
+          <Icon size={22} className="filter drop-shadow-lg" />
         </div>
-      </a>
+      </motion.a>
     );
   };
 
@@ -52,10 +65,10 @@ const FloatingButton = () => {
         ))}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`${buttonClasses} bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-1000 ease-in-out ${isOpen ? 'rotate-[360deg]' : ''}`}
+          className={`${buttonClasses} bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300 ease-in-out ${isOpen ? 'rotate-[180deg]' : ''}`}
         >
-          <div className={`relative bg-white bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center hover:bg-opacity-0 transition-all duration-1000`}>
-            <FaShareAlt size={20} className={`transition-transform duration-1000 ${isOpen ? 'rotate-180' : ''}`} />
+          <div className={`relative bg-white bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center hover:bg-opacity-0 transition-all duration-300`}>
+            <FaShareAlt size={20} className="transition-transform duration-300" />
           </div>
         </button>
       </div>

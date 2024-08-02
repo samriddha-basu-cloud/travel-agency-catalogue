@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Instagram, Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Facebook, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import logo from '../assets/logo.png'; 
+import { FaWhatsapp } from 'react-icons/fa';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -38,8 +40,8 @@ const Footer = () => {
   const socialLinks = [
     { icon: Instagram, href: '#', label: 'Instagram' },
     { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { icon: FaWhatsapp, href: '#', label: 'WhatsApp' }
   ];
 
   const containerVariants = {
@@ -76,11 +78,13 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left" variants={containerVariants}>
           <motion.div variants={itemVariants}>
-            <h3 className="text-2xl font-bold mb-4">Travel Agency</h3>
-            <p className="text-gray-300 mb-4">
+            <div className="flex justify-center">
+                <img src={logo} alt="Travel Agency Logo" className="h-20 md:h-22 mx-auto" />
+            </div>            
+            <p className="text-gray-300 mb-4 text-center">
               Discover the world with us. Your journey begins here.
             </p>
-            <div className="flex justify-center md:justify-start space-x-4">
+            <div className="flex justify-center md:justify-center space-x-4">
               {socialLinks.map((link) => (
                 <motion.a
                   key={link.label}

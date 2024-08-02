@@ -32,7 +32,7 @@ const Gallery = () => {
   return (
     <div className="p-8 bg-gradient-to-r from-blue-500/10 to-purple-600/10 backdrop-blur-sm">
       <h2 className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-        Our Gallery
+        Glimpses
       </h2>
       <div className="overflow-hidden">
         <div className="grid grid-rows-2 grid-flow-col animate-scroll gap-4">
