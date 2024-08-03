@@ -42,22 +42,15 @@ const PackageCard = ({ pkg, index }) => (
 const Packages = () => {
   return (
     <div className="py-16 px-4 md:px-8 bg-gradient-to-b from-gray-100 to-white">
-      <div className="container mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-4xl font-bold text-center mb-12 text-gray-800"
-        >
-          Explore Our Packages
-        </motion.h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
+        Explore Our Packages
+      </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {packages.map((pkg, index) => (
             <PackageCard key={index} pkg={pkg} index={index} />
           ))}
         </div>
       </div>
-    </div>
   );
 };
 

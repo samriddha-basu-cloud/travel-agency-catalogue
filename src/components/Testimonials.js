@@ -1,34 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
-import person1 from '../assets/person1.jpg';
-import person2 from '../assets/person2.jpg';
-import person3 from '../assets/person3.jpg';
+import axios from 'axios';
 
-// Example testimonial data
-const testimonials = [
-  {
-    name: 'John Doe',
-    title: 'Satisfied Customer',
-    quote: 'This travel agency provided an unforgettable experience! Highly recommend their services.',
-    rating: 5,
-    image: person1,
-  },
-  {
-    name: 'Jane Smith',
-    title: 'Happy Traveler',
-    quote: 'A fantastic journey with top-notch service. Every detail was taken care of.',
-    rating: 5,
-    image: person2,
-  },
-  {
-    name: 'Alice Johnson',
-    title: 'Great Experience',
-    quote: 'Exceptional service and amazing destinations. Will definitely book with them again.',
-    rating: 5,
-    image: person3,
-  },
-];
+const fetchGoogleReviews = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/api/google-reviews');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching Google reviews:', error);
+    return [];
+  }
+};
 
 const TestimonialCard = ({ testimonial, index }) => (
   <motion.div
@@ -40,18 +23,18 @@ const TestimonialCard = ({ testimonial, index }) => (
     <div className="h-3 bg-gradient-to-r from-blue-500 to-purple-600" />
     <div className="p-8">
       <Quote size={24} className="text-gray-400 mb-4" style={{ transform: "scaleX(-1) scaleY(-1)" }} />
-      <p className="text-gray-700 italic mb-6 text-lg leading-relaxed">{testimonial.quote}</p>
+      <p className="text-gray-700 italic mb-6 text-lg leading-relaxed">{testimonial.text}</p>
       <div className="flex items-center">
         <div className="flex-shrink-0">
           <img
-            src={testimonial.image}
-            alt={testimonial.name}
+            src={testimonial.profile_photo_url || '/default-profile.jpg'}
+            alt={testimonial.author_name}
             className="w-16 h-16 rounded-full object-cover"
           />
         </div>
         <div className="ml-4">
-          <h3 className="text-xl font-semibold text-gray-800">{testimonial.name}</h3>
-          <p className="text-sm text-gray-600">{testimonial.title}</p>
+          <h3 className="text-xl font-semibold text-gray-800">{testimonial.author_name}</h3>
+          <p className="text-sm text-gray-600">{testimonial.relative_time_description}</p>
           <div className="flex mt-1">
             {[...Array(testimonial.rating)].map((_, i) => (
               <Star key={i} size={16} className="text-yellow-400 fill-current" />
@@ -64,6 +47,17 @@ const TestimonialCard = ({ testimonial, index }) => (
 );
 
 const Testimonials = () => {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    const getReviews = async () => {
+      const fetchedReviews = await fetchGoogleReviews();
+      setReviews(fetchedReviews);
+    };
+
+    getReviews();
+  }, []);
+
   return (
     <div className="py-24 px-4 bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="max-w-7xl mx-auto">
@@ -84,8 +78,8 @@ const Testimonials = () => {
           Hear from our satisfied travelers about their unforgettable experiences with our premium travel services
         </motion.p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} testimonial={testimonial} index={index} />
+          {reviews.map((review, index) => (
+            <TestimonialCard key={index} testimonial={review} index={index} />
           ))}
         </div>
       </div>
