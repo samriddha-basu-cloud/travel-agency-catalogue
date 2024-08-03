@@ -9,12 +9,39 @@ app.use(cors());
 const PLACE_ID = process.env.PLACE_ID;
 const API_KEY = process.env.GOOGLE_API_KEY;
 
-app.get('/api/google-reviews', async (req, res) => {
-  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${PLACE_ID}&key=${API_KEY}`;
+async function getAllReviews(placeId, apiKey) {
+  let allReviews = [];
+  let nextPageToken = '';
 
+  do {
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}&reviews_sort=newest${nextPageToken ? `&pagetoken=${nextPageToken}` : ''}`;
+    
+    try {
+      const response = await axios.get(url);
+      const result = response.data.result;
+      
+      if (result && result.reviews) {
+        allReviews = allReviews.concat(result.reviews);
+      }
+      
+      nextPageToken = response.data.next_page_token || '';
+      
+      // Wait for a short time before making the next request
+      if (nextPageToken) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    } catch (error) {
+      console.error('Error fetching Google reviews:', error);
+      break;
+    }
+  } while (nextPageToken);
+
+  return allReviews;
+}
+
+app.get('/api/google-reviews', async (req, res) => {
   try {
-    const response = await axios.get(url);
-    const reviews = response.data.result.reviews;
+    const reviews = await getAllReviews(PLACE_ID, API_KEY);
     res.json(reviews);
   } catch (error) {
     console.error('Error fetching Google reviews:', error);
